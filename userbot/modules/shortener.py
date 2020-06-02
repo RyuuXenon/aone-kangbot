@@ -32,9 +32,8 @@ async def shortener(short):
         else:
             await short.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
-        urls = '{message}'
         s = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
-        raw_output = s.bitly.short(urls)
+        raw_output = s.bitly.short('{message}')
         string_output = f"{raw_output}"
         output = string_output.replace("'", "").replace("'", "")
         await short.edit(f"`Your link shortened successfully!`\nHere is your link {output}")
@@ -65,9 +64,8 @@ async def expander(expand):
         else:
             await expand.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
-        urls1 = '{message1}'
         s1 = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
-        raw_output1 = s1.bitly.expand(urls1)
+        raw_output1 = s1.bitly.expand('{message1}')
         string_output1 = f"{raw_output1}"
         output1 = string_output1.replace("'", "").replace("'", "")
         await expand.edit(f"`Your link expanded successfully!`\nHere is your link {output1}")
@@ -98,9 +96,8 @@ async def clicked(click):
         else:
             await click.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
-        urls2 = '{message2}'
         s2 = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
-        raw_output2 = s2.bitly.clicks(urls2)
+        raw_output2 = s2.bitly.clicks('{message2}')
         string_output2 = f"{raw_output2}"
         output2 = string_output2.replace("'", "").replace("'", "")
         await click.edit(f"Your [link]('{urls2}') has been clicked for `{output2} times`")
