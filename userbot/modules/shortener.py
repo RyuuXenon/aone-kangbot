@@ -5,19 +5,18 @@
 # you may not use this file except in compliance with the License.
 #
 
-from bitlyshortener import Shortener
+import pyshorteners
 from re import match
 from userbot import bot, CMD_HELP, BITLY_TOKEN, BOTLOG, BOTLOG_CHATID
 from userbot.events import register
 
 
-@register(outgoing=True, pattern=r"^.bitly(?: |$)(.*)")
+@register(outgoing=True, pattern=r"^.short(?: |$)(.*)")
 async def shortener(short):
     """
         Shorten link using bit.ly API
     """
     if BITLY_TOKEN is not None:
-        token = [f'{BITLY_TOKEN}']
         reply = await short.get_reply_message()
         message = short.pattern_match.group(1)
         if message:
@@ -34,18 +33,89 @@ async def shortener(short):
             await short.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
         urls = [f'{message}']
-        bitly = Shortener(tokens=token, max_cache_size=8192)
-        raw_output = bitly.shorten_urls(urls)
+        s = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
+        raw_output = s.bitly.short(urls)
         string_output = f"{raw_output}"
         output = string_output.replace("['", "").replace("']", "")
         await short.edit(f"`Your link shortened successfully!`\nHere is your link {output}")
-        if BOTLOG: 
+        if BOTLOG:
            await short.client.send_message(BOTLOG_CHATID, f"`#SHORTLINK \nThis Your Link!`\n {output}")
     else:
         await short.edit(f"Set bit.ly API token first\nGet from [here](https://bitly.com/a/sign_up)")
 
+
+@register(outgoing=True, pattern=r"^.expand(?: |$)(.*)")
+async def expander(expand):
+    """
+        Expand Shortened link using bit.ly API
+    """
+    if BITLY_TOKEN is not None:
+        reply1 = await expand.get_reply_message()
+        message1 = expand.pattern_match.group(1)
+        if message1:
+            pass
+        elif reply1:
+            message1 = reply1.text
+        else:
+            await expand.edit("`Error! No URL given!`")
+            return
+        link_match1 = match(r'\bhttps?://.*\.\S+', message1)
+        if link_match1:
+            pass
+        else:
+            await expand.edit("`Error! Please provide valid url!`\nexample: https://google.com")
+            return
+        urls1 = [f'{message1}']
+        s1 = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
+        raw_output1 = s1.bitly.expand(urls1)
+        string_output1 = f"{raw_output1}"
+        output1 = string_output1.replace("['", "").replace("']", "")
+        await expand.edit(f"`Your link expanded successfully!`\nHere is your link {output1}")
+        if BOTLOG:
+           await expand.client.send_message(BOTLOG_CHATID, f"`#SHORTLINK \nThis Your Link!`\n {output1}")
+    else:
+        await expand.edit(f"Set bit.ly API token first\nGet from [here](https://bitly.com/a/sign_up)")
+
+
+@register(outgoing=True, pattern=r"^.bitly(?: |$)(.*)")
+async def clicked(click):
+    """
+        Expand Shortened link using bit.ly API
+    """
+    if BITLY_TOKEN is not None:
+        reply2 = await click.get_reply_message()
+        message2 = click.pattern_match.group(1)
+        if message2:
+            pass
+        elif reply2:
+            message2 = reply2.text
+        else:
+            await click.edit("`Error! No URL given!`")
+            return
+        link_match2 = match(r'\bhttps?://.*\.\S+', message2)
+        if link_match2:
+            pass
+        else:
+            await click.edit("`Error! Please provide valid url!`\nexample: https://google.com")
+            return
+        urls2 = [f'{message2}']
+        s2 = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
+        raw_output2 = s2.bitly.clicks(urls2)
+        string_output2 = f"{raw_output2}"
+        output2 = string_output2.replace("['", "").replace("']", "")
+        await click.edit(f"Your [link]('{urls2}') has been clicked for `{output2} times`")
+        if BOTLOG:
+           await click.client.send_message(BOTLOG_CHATID, f"`#SHORTLINK \nYour link has been clicked for {output2} times")
+    else:
+        await click.edit(f"Set bit.ly API token first\nGet from [here](https://bitly.com/a/sign_up)")
+
+
 CMD_HELP.update({
     "bitly":
-    "`.bitly` <url> or reply to message contains url"
+    "`.short` <url> or reply to message contains url"
     "\nUsage: Shorten link using bit.ly API"
+    "\n\n`.expand` <url> or reply to message contains url"
+    "\nUsage: Shorten link using bit.ly API"
+    "\n\n`.bitly` <url> or reply to message contains url"
+    "\nUsage: Show your link statistics"
 })
