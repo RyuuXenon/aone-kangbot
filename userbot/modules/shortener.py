@@ -32,11 +32,11 @@ async def shortener(short):
         else:
             await short.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
-        urls = [f'{message}']
+        urls = '{message}'
         s = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
         raw_output = s.bitly.short(urls)
         string_output = f"{raw_output}"
-        output = string_output.replace("['", "").replace("']", "")
+        output = string_output.replace("'", "").replace("'", "")
         await short.edit(f"`Your link shortened successfully!`\nHere is your link {output}")
         if BOTLOG:
            await short.client.send_message(BOTLOG_CHATID, f"`#SHORTLINK \nThis Your Link!`\n {output}")
@@ -65,11 +65,11 @@ async def expander(expand):
         else:
             await expand.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
-        urls1 = [f'{message1}']
+        urls1 = '{message1}'
         s1 = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
         raw_output1 = s1.bitly.expand(urls1)
         string_output1 = f"{raw_output1}"
-        output1 = string_output1.replace("['", "").replace("']", "")
+        output1 = string_output1.replace("'", "").replace("'", "")
         await expand.edit(f"`Your link expanded successfully!`\nHere is your link {output1}")
         if BOTLOG:
            await expand.client.send_message(BOTLOG_CHATID, f"`#SHORTLINK \nThis Your Link!`\n {output1}")
@@ -98,11 +98,11 @@ async def clicked(click):
         else:
             await click.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
-        urls2 = [f'{message2}']
+        urls2 = '{message2}'
         s2 = pyshorteners.Shortener(api_key='{BITLY_TOKEN}')
         raw_output2 = s2.bitly.clicks(urls2)
         string_output2 = f"{raw_output2}"
-        output2 = string_output2.replace("['", "").replace("']", "")
+        output2 = string_output2.replace("'", "").replace("'", "")
         await click.edit(f"Your [link]('{urls2}') has been clicked for `{output2} times`")
         if BOTLOG:
            await click.client.send_message(BOTLOG_CHATID, f"`#SHORTLINK \nYour link has been clicked for {output2} times")
