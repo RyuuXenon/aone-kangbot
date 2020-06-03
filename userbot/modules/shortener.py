@@ -100,7 +100,7 @@ async def clicked(click):
             await click.edit("`Error! Please provide valid url!`\nexample: https://google.com")
             return
         s2 = pyshorteners.Shortener(api_key='token3')
-        raw_output2 = s2.bitly.total_clicks('{message2}')
+        raw_output2 = s2.bitly.total_clicks(f'{message2}')
         string_output2 = f"{raw_output2}"
         output2 = string_output2.replace("'", "").replace("'", "")
         await click.edit(f"Your [link]('{urls2}') has been clicked for `{output2} times`")
